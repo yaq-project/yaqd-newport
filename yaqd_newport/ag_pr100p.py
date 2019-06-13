@@ -6,7 +6,7 @@ import yaq_serial
 __all__ = ["AgPr100PDaemon"]
 
 
-class AgPr100PDaemon(hardware.BaseHardwareDaemon):
+class AgPr100PDaemon(hardware.ContinuousHardwareDaemon):
     defaults = {
         "make": "Newport",
         "model": "AG-PR100P",
@@ -16,9 +16,18 @@ class AgPr100PDaemon(hardware.BaseHardwareDaemon):
     }
 
     def __init__(self, name, config, config_filepath):
+        self.serial_port = yaq_serial.YaqSerial(config["serial_port"], baudrate=config["baudrate"])
         super().__init__(name, config, config_filepath)
         self.axis = config["axis"]
-        self.serial_port = yaq_serial.YaqSerial(config["serial_port"], baudrate=config["baudrate"])
+
+        self.serial_port.write(f"{self.axis}SL?\r\n".encode())
+        self.serial_port.write(f"{self.axis}SR?\r\n".encode())
+
+        line = self.serial_port.readline()
+        lo = float(line[len(str(self.axis)) + 2 :].decode())
+        line = self.serial_port.readline()
+        hi = float(line[len(str(self.axis)) + 2 :].decode())
+        self._limits = [(lo, hi)]
 
     def _set_position(self, position):
         self.serial_port.write(f"{self.axis}PA{position}\r\n".encode())
@@ -42,10 +51,8 @@ class AgPr100PDaemon(hardware.BaseHardwareDaemon):
                 status = status.strip()
                 if status[-2:] in (b"32", b"33", b"34"):
                     self._not_busy.set()
-                    await asyncio.sleep(0)
                 else:
                     self._busy.set()
-                    await asyncio.sleep(0)
             except asyncio.TimeoutError:
                 pass
             try:
