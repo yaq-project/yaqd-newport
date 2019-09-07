@@ -50,9 +50,9 @@ class AgPr100PDaemon(hardware.ContinuousHardwareDaemon):
                 )
                 status = status.strip()
                 if status[-2:] in (b"32", b"33", b"34"):
-                    self._not_busy.set()
+                    self._busy = False
                 else:
-                    self._busy.set()
+                    self._busy = True
             except asyncio.TimeoutError:
                 pass
             try:
@@ -64,7 +64,7 @@ class AgPr100PDaemon(hardware.ContinuousHardwareDaemon):
             except asyncio.TimeoutError:
                 pass
 
-            await self._busy.wait()
+            await self._busy_sig.wait()
 
     @hardware.set_action
     def home(self):
