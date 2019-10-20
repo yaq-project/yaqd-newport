@@ -1,9 +1,13 @@
 import asyncio
 
-from yaq_daemon_core import hardware
+from yaq_daemon_core import hardware, logging
 import yaq_serial
 
 __all__ = ["AgPr100PDaemon"]
+
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 class AgPr100PDaemon(hardware.ContinuousHardwareDaemon):
@@ -60,7 +64,7 @@ class AgPr100PDaemon(hardware.ContinuousHardwareDaemon):
                     self.serial_port.read_regex(f"^{self.axis}TE.*\r\n".encode()), timeout=0.01
                 )
                 if b"@" not in error:
-                    print("ERROR CODE", error)
+                    logger.error(f"ERROR CODE {error}")
             except asyncio.TimeoutError:
                 pass
 
