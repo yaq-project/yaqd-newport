@@ -1,16 +1,16 @@
 import asyncio
 
-from yaq_daemon_core import hardware, logging
-import yaq_serial
+from yaqd_core import ContinuousHardware, logging, set_action
+import yaq_serial  # type: ignore
 
-__all__ = ["AgPr100PDaemon"]
+__all__ = ["AgPr100P"]
 
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-class AgPr100PDaemon(hardware.ContinuousHardwareDaemon):
+class AgPr100P(ContinuousHardware):
     defaults = {
         "make": "Newport",
         "model": "AG-PR100P",
@@ -70,7 +70,7 @@ class AgPr100PDaemon(hardware.ContinuousHardwareDaemon):
 
             await self._busy_sig.wait()
 
-    @hardware.set_action
+    @set_action
     def home(self):
         self.serial_port.write(f"{self.axis}RS\r\n".encode())
 
@@ -80,14 +80,14 @@ class AgPr100PDaemon(hardware.ContinuousHardwareDaemon):
         loop = asyncio.get_event_loop()
         loop.call_later(0.1, _home)
 
-    @hardware.set_action
+    @set_action
     def stop(self):
         self.serial_port.write(f"{self.axis}ST\r\n".encode())
 
-    @hardware.set_action
+    @set_action
     def send_raw(self, command):
         self.serial_port.write(f"{self.axis}{command}\r\n".encode())
 
 
 if __name__ == "__main__":
-    AgPr100PDaemon.main()
+    AgPr100P.main()
