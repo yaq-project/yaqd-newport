@@ -34,7 +34,12 @@ setup(
     author="yaq Developers",
     license="LGPL v3",
     url="http://gitlab.com/yaq/yaqd-newport",
-    entry_points={"console_scripts": ["yaqd-agpr100p=yaqd_newport._agpr100p:AgPr100PDaemon.main"]},
+    entry_points={
+        "console_scripts": [
+            "yaqd-agpr100p=yaqd_newport._agpr100p:AgPr100PDaemon.main",
+            "yaqd-mfa=yaqd_newport._mfa:MFA.main",
+        ]
+    },
     keywords="spectroscopy science multidimensional hardware",
     classifiers=[
         "Development Status :: 1 - Planning",
