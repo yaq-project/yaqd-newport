@@ -2,14 +2,14 @@ import asyncio
 import time
 
 import yaq_serial
-import yaqd_core
+from yaqd_core import ContinuousHardware, logging
 
 
-logger = yaqd_core.logging.getLogger(__name__)
-logger.setLevel(yaqd_core.logging.DEBUG)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
-class MFA(yaqd_core.ContinuousHardware):
+class MFA(ContinuousHardware):
     _kind = "mfa"
     defaults = {
         "units": "mm",
@@ -98,8 +98,8 @@ class MFA(yaqd_core.ContinuousHardware):
                 self._error_code = status_response[-8:-4]
                 self._status = self.controller_states[status_response[-4:-2]]
 
-    @yaqd_core.set_action
     def home(self):
+        self._busy = True
         asyncio.get_event_loop().create_task(self._home())
 
     async def _home(self):

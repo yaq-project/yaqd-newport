@@ -1,6 +1,6 @@
 import asyncio
 
-from yaqd_core import ContinuousHardware, logging, set_action
+from yaqd_core import ContinuousHardware, logging
 import yaq_serial  # type: ignore
 
 __all__ = ["AgPr100P"]
@@ -70,8 +70,8 @@ class AgPr100P(ContinuousHardware):
 
             await self._busy_sig.wait()
 
-    @set_action
     def home(self):
+        self._busy = True
         self.serial_port.write(f"{self.axis}RS\r\n".encode())
 
         async def _home():
@@ -80,12 +80,12 @@ class AgPr100P(ContinuousHardware):
         loop = asyncio.get_event_loop()
         loop.call_later(0.1, _home)
 
-    @set_action
     def stop(self):
+        self._busy = True
         self.serial_port.write(f"{self.axis}ST\r\n".encode())
 
-    @set_action
     def send_raw(self, command):
+        self._busy = True
         self.serial_port.write(f"{self.axis}{command}\r\n".encode())
 
 
