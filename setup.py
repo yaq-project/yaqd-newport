@@ -23,7 +23,6 @@ setup(
     python_requires=">=3.7",
     install_requires=["yaqd-core", "yaq-serial"],
     extras_require={
-        "docs": ["sphinx", "sphinx-gallery>=0.3.0", "sphinx-rtd-theme"],
         "dev": ["black", "pre-commit", "pydocstyle"],
     },
     version=version,
@@ -34,8 +33,7 @@ setup(
     url="http://gitlab.com/yaq/yaqd-newport",
     entry_points={
         "console_scripts": [
-            "yaqd-agpr100p=yaqd_newport._agpr100p:AgPr100PDaemon.main",
-            "yaqd-mfa=yaqd_newport._mfa:MFA.main",
+            "yaqd-newport-motor=yaqd_newport._newport_motor:NewportMotor.main",
         ]
     },
     keywords="spectroscopy science multidimensional hardware",
