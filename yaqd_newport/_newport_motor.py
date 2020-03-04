@@ -9,9 +9,11 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
-class MFA(ContinuousHardware):
-    _kind = "mfa"
+class NewportMotor(ContinuousHardware):
+    _kind = "newport-motor"
     defaults = {
+        "make": "newport",
+        "axis": 1,G
         "units": "mm",
     }
 
@@ -73,6 +75,18 @@ class MFA(ContinuousHardware):
         self._axis = config["axis"]
         self._status = ""
         self._error_code = ""
+     
+        self._serial.write(f"{self.axis}SL?\r\n".encode())
+        self._serial.write(f"{self.axis}SR?\r\n".encode())
+
+        time.sleep(0.1)
+
+        line = self._serial.readline()
+        lo = float(line[len(str(self.axis)) + 2 :].decode())
+        line = self._serial.readline()
+        hi = float(line[len(str(self.axis)) + 2 :].decode())
+        self._limits = [(lo, hi)]
+
 
     def _set_position(self, position):
         self._serial.write(f"{self._axis}PA{position}\r\n".encode())
@@ -81,7 +95,9 @@ class MFA(ContinuousHardware):
         asyncio.get_event_loop().create_task(self._consume_from_serial())
         while True:
             self._serial.write(f"{self._axis}TP\r\n".encode())
+            self._serial.write(f"{self._axis}TE\r\n".encode())
             self._serial.write(f"{self._axis}TS\r\n".encode())
+            self._serial.write(f"{self._axis}TE\r\n".encode())
             await asyncio.sleep(0.01)
             self._busy = not self._status.startswith("READY")
             if not self._busy:
@@ -93,10 +109,15 @@ class MFA(ContinuousHardware):
         for line in self._serial.areadlines():
             if b"TP" in line:
                 self._position = float(position_response.split(b"TP")[1])
-            elif "TS" in line:
+            elif b"TS" in line:
                 status_response = line.decode()
                 self._error_code = status_response[-8:-4]
                 self._status = self.controller_states[status_response[-4:-2]]
+            elif b"TE" in line
+                if b"@" not in line:
+                    logger.error(f"ERROR CODE {line}")
+            else:
+                logger.info(f"Unhandled serial response: {line}")
 
     def home(self):
         self._busy = True
@@ -122,10 +143,9 @@ class MFA(ContinuousHardware):
         return state
 
     def direct_serial_write(self, command):
-        self._serial.write(command.encode())
-
-    def direct_serial_read(self):
-        return self._serial.readline().decode()
+        self._busy = True
+        self._serial.write(f"{self.axis}{command}\r\n".encode())
+        self._serial.write(f"{self._axis}TE\r\n".encode())
 
     def close(self):
         self._serial.flush()
@@ -133,4 +153,4 @@ class MFA(ContinuousHardware):
 
 
 if __name__ == "__main__":
-    MFA.main()
+    NewportMotor.main()
