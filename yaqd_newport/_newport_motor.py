@@ -13,7 +13,7 @@ class NewportMotor(ContinuousHardware):
     _kind = "newport-motor"
     defaults = {
         "make": "newport",
-        "axis": 1,G
+        "axis": 1,
         "units": "mm",
     }
 
