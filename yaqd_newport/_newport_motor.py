@@ -75,18 +75,19 @@ class NewportMotor(ContinuousHardware):
         self._axis = config["axis"]
         self._status = ""
         self._error_code = ""
-     
-        self._serial.write(f"{self.axis}SL?\r\n".encode())
-        self._serial.write(f"{self.axis}SR?\r\n".encode())
 
-        time.sleep(0.1)
+        self._serial.write(f"{self._axis}SL?\r\n".encode())
+        self._serial.write(f"{self._axis}SR?\r\n".encode())
 
+        time.sleep(1)
+
+        """
         line = self._serial.readline()
-        lo = float(line[len(str(self.axis)) + 2 :].decode())
+        lo = float(line[len(str(self._axis)) + 2 :].decode())
         line = self._serial.readline()
-        hi = float(line[len(str(self.axis)) + 2 :].decode())
+        hi = float(line[len(str(self._axis)) + 2 :].decode())
         self._limits = [(lo, hi)]
-
+        """
 
     def _set_position(self, position):
         self._serial.write(f"{self._axis}PA{position}\r\n".encode())
@@ -105,15 +106,15 @@ class NewportMotor(ContinuousHardware):
             else:
                 await asyncio.sleep(0.01)
 
-    async def consume_from_serial(self):
-        for line in self._serial.areadlines():
+    async def _consume_from_serial(self):
+        async for line in self._serial.areadlines():
             if b"TP" in line:
                 self._position = float(position_response.split(b"TP")[1])
             elif b"TS" in line:
                 status_response = line.decode()
                 self._error_code = status_response[-8:-4]
                 self._status = self.controller_states[status_response[-4:-2]]
-            elif b"TE" in line
+            elif b"TE" in line:
                 if b"@" not in line:
                     logger.error(f"ERROR CODE {line}")
             else:
@@ -144,7 +145,7 @@ class NewportMotor(ContinuousHardware):
 
     def direct_serial_write(self, command):
         self._busy = True
-        self._serial.write(f"{self.axis}{command}\r\n".encode())
+        self._serial.write(f"{self._axis}{command}\r\n".encode())
         self._serial.write(f"{self._axis}TE\r\n".encode())
 
     def close(self):

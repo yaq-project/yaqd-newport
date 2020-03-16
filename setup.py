@@ -22,9 +22,7 @@ setup(
     package_data=extra_files,
     python_requires=">=3.7",
     install_requires=["yaqd-core", "yaq-serial"],
-    extras_require={
-        "dev": ["black", "pre-commit", "pydocstyle"],
-    },
+    extras_require={"dev": ["black", "pre-commit", "pydocstyle"],},
     version=version,
     description="Core structures for yaq component daemons",
     # long_description=read("README.rst"),
@@ -33,7 +31,8 @@ setup(
     url="http://gitlab.com/yaq/yaqd-newport",
     entry_points={
         "console_scripts": [
-            "yaqd-newport-motor=yaqd_newport._newport_motor:NewportMotor.main",
+            "yaqd-newport-smc100=yaqd_newport._newport_smc100:NewportSMC100.main",
+            "yaqd-newport-conex-agp=yaqd_newport._newport_conex_agp:NewportConexAGP.main",
         ]
     },
     keywords="spectroscopy science multidimensional hardware",
