@@ -12,6 +12,7 @@ logger.setLevel(logging.INFO)
 
 class NewportMotor(ContinuousHardware):
     _kind = "newport-motor"
+    traits: List[str] = ["is-homeable", "uses-uart"]
     defaults = {
         "make": "newport",
         "axis": 1,
