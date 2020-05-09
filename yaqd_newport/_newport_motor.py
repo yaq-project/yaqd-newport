@@ -6,7 +6,7 @@ from ._serial import SerialDispatcher
 
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 
 class NewportMotor(ContinuousHardware):
@@ -70,7 +70,7 @@ class NewportMotor(ContinuousHardware):
     serial_dispatchers = {}
 
     def __init__(self, name, config, config_filepath):
-        super().__init__(name, config, config_filepath)
+        self._homing = True
         self._axis = config["axis"]
         if config["serial_port"] in NewportMotor.serial_dispatchers:
             self._serial = NewportMotor.serial_dispatchers[config["serial_port"]]
@@ -83,10 +83,10 @@ class NewportMotor(ContinuousHardware):
         self._serial.workers[self._axis] = self._read_queue
         self._status = ""
         self._error_code = ""
+        super().__init__(name, config, config_filepath)
 
         self._serial.write(f"{self._axis}SL?\r\n".encode())
         self._serial.write(f"{self._axis}SR?\r\n".encode())
-        self._homing = True
         self._tasks.append(asyncio.get_event_loop().create_task(self._home()))
         self._tasks.append(asyncio.get_event_loop().create_task(self._consume_from_serial()))
 
@@ -100,19 +100,26 @@ class NewportMotor(ContinuousHardware):
 
     def _set_position(self, position):
         async def _wait_for_ready_and_set_position(self):
-            if self._busy:
+            if self._status.startswith("MOVING"):
+                self._serial.write(f"{self._axis}ST\r\n".encode())
+            if self._busy and not self._homing:
                 await self._not_busy_sig.wait()
             self._serial.write(f"{self._axis}PA{position}\r\n".encode())
         self._loop.create_task(_wait_for_ready_and_set_position(self))
 
     async def update_state(self):
         while True:
-            self._serial.write(f"{self._axis}TP\r\n".encode())
-            self._serial.write(f"{self._axis}TE\r\n".encode())
+            if not self._homing:
+                self._serial.write(f"{self._axis}TP\r\n".encode())
+                self._serial.write(f"{self._axis}TE\r\n".encode())
+                await asyncio.sleep(0)
             self._serial.write(f"{self._axis}TS\r\n".encode())
             self._serial.write(f"{self._axis}TE\r\n".encode())
             if not self._busy:
-                await self._busy_sig.wait()
+                try:
+                    await asyncio.wait_for(self._busy_sig.wait(), 1)
+                except asyncio.TimeoutError:
+                    pass
             else:
                 await asyncio.sleep(0.1)
 
@@ -126,7 +133,7 @@ class NewportMotor(ContinuousHardware):
                 if self._error_code != "0000":
                     logger.error(f"ERROR CODE: {self._error_code}")
                 self._status = self.controller_states[args[4:]]
-                self._busy = not self._status.startswith("READY") and not self._homing
+                self._busy = not self._status.startswith("READY") or self._homing
             elif "TE" == command:
                 if "@" not in args:
                     logger.error(f"ERROR CODE {self.error_dict[args]}")
@@ -140,12 +147,14 @@ class NewportMotor(ContinuousHardware):
 
     async def _home(self):
         self._homing = True
-        self._serial.write(f"{self._axis}RS\r\n".encode())
         self._busy = True
+        self._serial.write(f"{self._axis}RS\r\n".encode())
+        await asyncio.sleep(0.2)
+        while not self._status.startswith("NOT REFERENCED"):
+            await asyncio.sleep(0.1)
         self._serial.write(f"{self._axis}OR\r\n".encode())
-        await asyncio.sleep(1)
-        await self._not_busy_sig.wait()
-        logger.debug(self._status)
+        while not self._status.startswith("READY"):
+            await asyncio.sleep(0.1)
         self.set_position(self._destination)
         self._homing = False
 

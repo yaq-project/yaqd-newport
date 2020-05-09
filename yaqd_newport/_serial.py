@@ -25,6 +25,7 @@ class SerialDispatcher:
             data = await self.write_queue.get()
             self.port.write(data)
             self.write_queue.task_done()
+            await asyncio.sleep(0.01)
 
     async def read_dispatch(self):
         parse = re.compile(r"^(\d*)([A-Z][A-Z])(.*)$")
@@ -52,11 +53,7 @@ class SerialDispatcher:
         logger.debug("Closing serial dispatcher")
         logger.debug(f"Q size {self.write_queue.qsize()}")
         await self.write_queue.join()
-        logger.debug("Write Queue joined")
         for worker in self.workers.values():
-            logger.debug(f"joining {worker}")
             await worker.join()
-        logger.debug("All workers joined")
         for task in self.tasks:
             task.cancel()
-        logger.debug("All tasks canceled")
