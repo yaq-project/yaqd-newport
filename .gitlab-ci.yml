@@ -36,7 +36,7 @@ before_script:
 mypy:
   stage: test
   script:
-    - mypy yaqd_edaq
+    - mypy yaqd_newport
 
 
 
