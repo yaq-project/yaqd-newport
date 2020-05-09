@@ -1,5 +1,6 @@
 import asyncio
 import time
+from typing import Dict
 
 from yaqd_core import ContinuousHardware, logging
 from ._serial import SerialDispatcher
@@ -67,7 +68,7 @@ class NewportMotor(ContinuousHardware):
 
     status_dict = {value: key for key, value in controller_states.items()}
 
-    serial_dispatchers = {}
+    serial_dispatchers: Dict[str, SerialDispatcher] = {}
 
     def __init__(self, name, config, config_filepath):
         self._homing = True
