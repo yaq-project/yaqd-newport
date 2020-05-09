@@ -45,7 +45,7 @@ run:
   script:
     - python setup.py sdist bdist_wheel
     # an alternative approach is to install and run:
-    - pip install -U dist/*.whl
+    - pip install -e .
     # run the command here
   artifacts:
     paths:
