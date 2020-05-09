@@ -1,6 +1,6 @@
 import asyncio
 import time
-from typing import Dict
+from typing import Dict, List
 
 from yaqd_core import ContinuousHardware, logging
 from ._serial import SerialDispatcher
