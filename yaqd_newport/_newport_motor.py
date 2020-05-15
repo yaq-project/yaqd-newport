@@ -12,7 +12,7 @@ logger.setLevel(logging.INFO)
 
 class NewportMotor(ContinuousHardware):
     _kind = "newport-motor"
-    _version = "0.1.0"
+    _version = None  # should not be directly instantiated
     traits: List[str] = ["is-homeable", "uses-uart"]
     defaults = {
         "make": "newport",
@@ -108,6 +108,7 @@ class NewportMotor(ContinuousHardware):
             if self._busy and not self._homing:
                 await self._not_busy_sig.wait()
             self._serial.write(f"{self._axis}PA{position}\r\n".encode())
+
         self._loop.create_task(_wait_for_ready_and_set_position(self))
 
     async def update_state(self):
