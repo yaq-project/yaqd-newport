@@ -31,17 +31,6 @@ entry:
     - yaqd-continuous-hardware -h
 
 # deploy stage
-pages:
-  stage: deploy
-  script:
-  - pip install -U pdoc
-  - pdoc --html yaqd_core --html-dir html --overwrite
-  - mv html/yaqd_core public
-  artifacts:
-    paths:
-    - public
-  only:
-    - tags
 twine:
   stage: deploy
   script:
