@@ -7,9 +7,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 - added get_version as described in YEP-105
+- added branch information to daemon, package version
+- added entry test to gitlab-ci
 
 ### Changed
 - from now on, yaqd-newport will use calendar-based versioning
+- refactored gitlab-ci
 
 ## [0.1.1]
 
