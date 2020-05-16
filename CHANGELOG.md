@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2020.05.0]
+
 ### Added
 - added get_version as described in YEP-105
 - added branch information to daemon, package version
@@ -26,6 +28,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Added
 - initial release
 
-[Unreleased]: https://gitlab.com/yaq/yaqd-newport/-/compare/master...v0.1.1
+[Unreleased]: https://gitlab.com/yaq/yaqd-newport/-/compare/master...v2020.05.0
+[2020.05.0]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2020.05.0...v0.1.1
 [0.1.1]: https://gitlab.com/yaq/yaqd-newport/-/compare/v0.1.1...v0.1.0
 [0.1.0]: https://gitlab.com/yaq/yaqd-newport/-/tags/v0.1.0
