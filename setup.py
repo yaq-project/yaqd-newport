@@ -21,7 +21,7 @@ setup(
     packages=find_packages(exclude=("tests", "tests.*")),
     package_data=extra_files,
     python_requires=">=3.7",
-    install_requires=["yaqd-core[aserial]"],
+    install_requires=["yaqd-core[aserial]>=2020.05.1"],
     extras_require={"dev": ["black", "pre-commit", "pydocstyle"],},
     version=version,
     description="yaq daemons for Newport hardware",
