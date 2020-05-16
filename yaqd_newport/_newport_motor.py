@@ -1,18 +1,14 @@
 import asyncio
 import time
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from yaqd_core import ContinuousHardware, logging
 from ._serial import SerialDispatcher
 
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
-
 class NewportMotor(ContinuousHardware):
     _kind = "newport-motor"
-    _version = None  # should not be directly instantiated
+    _version: Optional[str] = None  # should not be directly instantiated
     traits: List[str] = ["is-homeable", "uses-uart"]
     defaults = {
         "make": "newport",
@@ -135,14 +131,14 @@ class NewportMotor(ContinuousHardware):
             elif "TS" == command:
                 self._error_code = args[:4]
                 if self._error_code != "0000":
-                    logger.error(f"ERROR CODE: {self._error_code}")
+                    self.logger.error(f"ERROR CODE: {self._error_code}")
                 self._status = self.controller_states[args[4:]]
                 self._busy = not self._status.startswith("READY") or self._homing
             elif "TE" == command:
                 if "@" not in args:
-                    logger.error(f"ERROR CODE {self.error_dict[args]}")
+                    self.logger.error(f"ERROR CODE {self.error_dict[args]}")
             else:
-                logger.info(f"Unhandled serial response: {command, args}")
+                self.logger.info(f"Unhandled serial response: {command, args}")
             self._read_queue.task_done()
 
     def home(self):

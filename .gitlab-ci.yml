@@ -14,14 +14,14 @@ before_script:
   - virtualenv venv
   - source venv/bin/activate
   - pip install -U twine
-  - pip install -U pytest mypy yaqc numpy
+  - pip install -U pytest mypy yaqc yaqd_core
   - pip install -e .
 
 # test stage
 mypy:
   stage: test
   script:
-    - mypy yaqd_core
+    - mypy yaqd_newport
 entry:
   stage: test
   script:
