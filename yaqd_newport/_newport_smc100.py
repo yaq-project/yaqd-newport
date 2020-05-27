@@ -7,7 +7,7 @@ class NewportSMC100(NewportMotor):
     _version = "0.1.0" + f"+{__branch__}" if __branch__ else ""
     traits = ["uses-serial", "uses-uart"]
     defaults = {
-        "baudrate": 57_600,
+        "baud_rate": 57_600,
         "units": "mm",
         "model": "SMC100",
         "make": "Newport",
