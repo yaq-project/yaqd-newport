@@ -11,8 +11,8 @@ class SerialDispatcher:
         self.write_queue = asyncio.Queue()
         self.loop = asyncio.get_event_loop()
         self.tasks = [
-            self.loop.create_task(self.do_writes(), name="do_writes"),
-            self.loop.create_task(self.read_dispatch(), name="read_dispatch"),
+            self.loop.create_task(self.do_writes()),
+            self.loop.create_task(self.read_dispatch()),
         ]
 
     def write(self, data):
@@ -42,7 +42,7 @@ class SerialDispatcher:
         self.port.flush()
 
     def close(self):
-        self.loop.create_task(self._close(), name="close_serial")
+        self.loop.create_task(self._close())
 
     async def _close(self):
         await self.write_queue.join()
