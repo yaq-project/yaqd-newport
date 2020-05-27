@@ -6,7 +6,7 @@ class NewportConexAGP(NewportMotor):
     _kind = "newport-conex-agp"
     _version = "0.1.0" + f"+{__branch__}" if __branch__ else ""
     defaults = {
-        "baudrate": 921_600,
+        "baud_rate": 921_600,
         "units": "deg",
         "model": "CONEX-AGP",
         "make": "Newport",

@@ -14,6 +14,7 @@ class NewportMotor(ContinuousHardware):
         "make": "newport",
         "axis": 1,
         "units": "mm",
+        "baud_rate": 57_600,
     }
 
     error_dict = {
@@ -75,7 +76,7 @@ class NewportMotor(ContinuousHardware):
             self._serial = NewportMotor.serial_dispatchers[config["serial_port"]]
         else:
             self._serial = SerialDispatcher(
-                config["serial_port"], baudrate=config.get("baudrate", 57600)
+                config["serial_port"], baudrate=config["baud_rate"]
             )
             NewportMotor.serial_dispatchers[config["serial_port"]] = self._serial
         self._read_queue = asyncio.Queue()

@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Fixed
+- Correct name `baudrate` to `baud_rate`, as specified by the `uses-uart` trait
 - No longer uses python 3.8+ only feature named aio tasks
 
 ## [2020.05.0]
