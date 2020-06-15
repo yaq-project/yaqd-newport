@@ -25,10 +25,10 @@ mypy:
 entry:
   stage: test
   script:
-    - yaqd-hardware --version
-    - yaqd-hardware -h
-    - yaqd-continuous-hardware --version
-    - yaqd-continuous-hardware -h
+    - yaqd-newport-smc100 --version
+    - yaqd-newport-smc100 -h
+    - yaqd-newport-conex-agp --version
+    - yaqd-newport-conex-agp -h
 
 # deploy stage
 twine:
