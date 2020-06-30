@@ -8,14 +8,6 @@ from ._serial import SerialDispatcher
 
 class NewportMotor(ContinuousHardware):
     _kind = "newport-motor"
-    _version: Optional[str] = None  # should not be directly instantiated
-    traits: List[str] = ["is-homeable", "uses-uart"]
-    defaults = {
-        "make": "newport",
-        "axis": 1,
-        "units": "mm",
-        "baud_rate": 57_600,
-    }
 
     error_dict = {
         "0": None,
@@ -75,32 +67,21 @@ class NewportMotor(ContinuousHardware):
         if config["serial_port"] in NewportMotor.serial_dispatchers:
             self._serial = NewportMotor.serial_dispatchers[config["serial_port"]]
         else:
-            self._serial = SerialDispatcher(
-                config["serial_port"], baudrate=config["baud_rate"]
-            )
+            self._serial = SerialDispatcher(config["serial_port"], baudrate=config["baud_rate"])
             NewportMotor.serial_dispatchers[config["serial_port"]] = self._serial
         self._read_queue = asyncio.Queue()
         self._serial.workers[self._axis] = self._read_queue
-        self._status = ""
-        self._error_code = ""
         super().__init__(name, config, config_filepath)
 
         self._serial.write(f"{self._axis}SL?\r\n".encode())
         self._serial.write(f"{self._axis}SR?\r\n".encode())
-        self._tasks.append(asyncio.get_event_loop().create_task(self._home()))
-        self._tasks.append(asyncio.get_event_loop().create_task(self._consume_from_serial()))
-
-        """
-        line = self._serial.readline()
-        lo = float(line[len(str(self._axis)) + 2 :].decode())
-        line = self._serial.readline()
-        hi = float(line[len(str(self._axis)) + 2 :].decode())
-        self._limits = [(lo, hi)]
-        """
+        self._state["status"] = ""
+        self._tasks.append(self._loop.create_task(self._home()))
+        self._tasks.append(self._loop.create_task(self._consume_from_serial()))
 
     def _set_position(self, position):
         async def _wait_for_ready_and_set_position(self):
-            if self._status.startswith("MOVING"):
+            if self._state["status"].startswith("MOVING"):
                 self._serial.write(f"{self._axis}ST\r\n".encode())
             if self._busy and not self._homing:
                 await self._not_busy_sig.wait()
@@ -128,49 +109,46 @@ class NewportMotor(ContinuousHardware):
         while True:
             command, args = await self._read_queue.get()
             if "TP" == command:
-                self._position = float(args)
+                self._state["position"] = float(args)
             elif "TS" == command:
-                self._error_code = args[:4]
-                if self._error_code != "0000":
-                    self.logger.error(f"ERROR CODE: {self._error_code}")
-                self._status = self.controller_states[args[4:]]
-                self._busy = not self._status.startswith("READY") or self._homing
+                self._state["error_code"] = args[:4]
+                if self._state["error_code"] != "0000":
+                    self.logger.error(f"ERROR CODE: {self._state['error_code']}")
+                self._state["status"] = self.controller_states[args[4:]]
+                self._busy = not self._state["status"].startswith("READY") or self._homing
             elif "TE" == command:
                 if "@" not in args:
                     self.logger.error(f"ERROR CODE {self.error_dict[args]}")
+            elif "SR" == command:
+                self._state["hw_limits"][1] = float(args)
+            elif "SL" == command:
+                self._state["hw_limits"][0] = float(args)
             else:
                 self.logger.info(f"Unhandled serial response: {command, args}")
             self._read_queue.task_done()
 
     def home(self):
         self._busy = True
-        asyncio.get_event_loop().create_task(self._home())
+        self._loop.create_task(self._home())
 
     async def _home(self):
         self._homing = True
         self._busy = True
+        self._state["status"] = ""
         self._serial.write(f"{self._axis}RS\r\n".encode())
-        await asyncio.sleep(0.2)
-        while not self._status.startswith("NOT REFERENCED"):
+        await asyncio.sleep(5)
+        while not self._state["status"].startswith("NOT REFERENCED"):
             await asyncio.sleep(0.1)
         self._serial.write(f"{self._axis}OR\r\n".encode())
-        while not self._status.startswith("READY"):
+        await asyncio.sleep(0.2)
+        while not self._state["status"].startswith("READY"):
             await asyncio.sleep(0.1)
-        self.set_position(self._destination)
+        self.set_position(self._state["destination"])
         self._homing = False
 
-    def get_state(self):
-        state = super().get_state()
-        try:
-            state["status"] = self._status
-            state["error_code"] = self._error_code
-        except AttributeError:
-            pass
-        return state
-
-    def direct_serial_write(self, command):
+    def direct_serial_write(self, command: bytes):
         self._busy = True
-        self._serial.write(f"{self._axis}{command}\r\n".encode())
+        self._serial.write(f"{self._axis}{command.decode()}\r\n".encode())
         self._serial.write(f"{self._axis}TE\r\n".encode())
 
     def close(self):
