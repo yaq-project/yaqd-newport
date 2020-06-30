@@ -15,7 +15,8 @@ before_script:
   - source venv/bin/activate
   - pip install -U twine
   - pip install -U pytest mypy yaqc yaqd_core
-  - pip install -e .
+  - pip install -U yaq-traits
+  - pip install .
 
 # test stage
 mypy:
@@ -30,12 +31,16 @@ entry:
     - yaqd-newport-conex-agp --version
     - yaqd-newport-conex-agp -h
 
+traits:
+  stage: test
+  script:
+    - yaq-traits check yaqd_newport/newport-smc100.avpr
+    - yaq-traits check yaqd_newport/newport-conex-agp.avpr
 # deploy stage
 twine:
   stage: deploy
   script:
-    - python setup.py sdist bdist_wheel
-    - twine upload dist/*
+      - flit publish
   artifacts:
     paths:
       - dist/*

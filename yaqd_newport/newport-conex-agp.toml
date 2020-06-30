@@ -1,0 +1,36 @@
+protocol = "newport-connex-agp"
+doc = """
+Daemon for the Newport connex-agp controllers
+
+This daemon was specifically tested with the CONEX-AG-PR100P.
+It should, in theory, work (though with other units, potentially) for other CONEX line controllers.
+"""
+traits = ["has-limits", "is-homeable", "uses-uart", "is-daemon"]
+
+[links]
+source = "https://gitlab.com/yaq/yaqd-newport/"
+bugtracker = "https://gitlab.com/yaq/yaqd-newport/issues"
+manufacturer = "https://www.newport.com/c/controller-%26-stage-kits"
+PR100P = "https://www.newport.com/p/CONEX-AG-PR100P"
+
+[config]
+axis.type = "int"
+axis.default = 1
+axis.doc = "Allows for daisy chained controllers"
+units.type = "string"
+units.default = "deg"
+units.doc = "Units for the motor attatched to the controller"
+make.defult = "newport"
+model.default = "CONEX-AGP"
+baud_rate.default = 921600
+
+[state]
+status.type = "string"
+status.doc = "Device status, translated into text from the Tell Status (TS) command."
+status.default = ""
+error_code.type = "string"
+error_code.doc = "Four digit code describing error conditions in the Tell Status (TS) command."
+error_code.default = "0000"
+
+[installation]
+PyPI = "https://pypi.org/project/yaqd-newport"

@@ -1,3 +1,5 @@
+"""yaq daemons for Newport hardware"""
+
 from .__version__ import *
 from ._newport_motor import *
 from ._newport_smc100 import *
