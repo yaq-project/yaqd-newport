@@ -6,6 +6,7 @@ This daemon was specifically tested with the CONEX-AG-PR100P.
 It should, in theory, work (though with other units, potentially) for other CONEX line controllers.
 """
 traits = ["has-limits", "is-homeable", "uses-uart", "is-daemon"]
+hardware = ["newport:conex-ag-pr100p"]
 
 [links]
 source = "https://gitlab.com/yaq/yaqd-newport/"

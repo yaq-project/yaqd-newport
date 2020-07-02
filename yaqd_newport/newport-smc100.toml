@@ -3,6 +3,7 @@ doc = """
 Daemon for the Newport smc100-[CC|PP] controllers
 """
 traits = ["has-limits", "is-homeable", "uses-uart", "is-daemon"]
+hardware = ["newport:mfa-cc", "newport:smc100cc", "newport:smc100pp"]
 
 [links]
 source = "https://gitlab.com/yaq/yaqd-newport/"
