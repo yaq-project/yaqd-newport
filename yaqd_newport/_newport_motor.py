@@ -72,6 +72,7 @@ class NewportMotor(ContinuousHardware):
         self._read_queue = asyncio.Queue()
         self._serial.workers[self._axis] = self._read_queue
         super().__init__(name, config, config_filepath)
+        self._units = config["units"]
 
         self._serial.write(f"{self._axis}SL?\r\n".encode())
         self._serial.write(f"{self._axis}SR?\r\n".encode())

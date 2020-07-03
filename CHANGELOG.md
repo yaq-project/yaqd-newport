@@ -5,9 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Changed
+- Implement [YEP-107](https://yeps.yaq.fyi/107) Avro
+- Use flit for packaging
+
 ### Fixed
 - Correct name `baudrate` to `baud_rate`, as specified by the `uses-uart` trait
 - No longer uses python 3.8+ only feature named aio tasks
+- Apply units from the config
 
 ## [2020.05.0]
 
