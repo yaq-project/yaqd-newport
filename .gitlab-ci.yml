@@ -13,7 +13,7 @@ before_script:
   - pip install -U virtualenv
   - virtualenv venv
   - source venv/bin/activate
-  - pip install -U twine
+  - pip install -U flit
   - pip install -U pytest mypy yaqc yaqd_core
   - pip install -U yaq-traits
   - pip install . --no-build-isolation
