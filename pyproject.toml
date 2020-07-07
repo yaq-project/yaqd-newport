@@ -4,6 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [tool.flit.metadata]
 module = "yaqd_newport"
+dist-name = "yaqd-newport"
 author = "yaq Developers"
 author-email = "git@ksunden.space"
 home-page = "https://yaq.fyi"
