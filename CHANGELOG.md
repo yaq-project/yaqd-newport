@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Fixed
+- discard invalid messages recieved because the device overwrites its own output stream
+
 ## [2020.11.0]
 
 ### Changed

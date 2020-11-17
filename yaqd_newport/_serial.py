@@ -26,17 +26,16 @@ class SerialDispatcher:
             await asyncio.sleep(0.01)
 
     async def read_dispatch(self):
-        parse = re.compile(r"^(\d*)([A-Z][A-Z])(.*)$")
+        parse = re.compile(rb"^(\d*)([A-Z][A-Z])([ -~]*)$")
         async for line in self.port.areadlines():
-            line = line.decode("utf8")
-            line = re.sub(r"\s", "", line.strip())
+            line = re.sub(rb"\s", b"", line.strip())
             match = parse.match(line)
             if match is None:
                 continue
             index, command, args = match.groups()
             index = int(index)
             if index in self.workers:
-                self.workers[index].put_nowait((command, args))
+                self.workers[index].put_nowait((command.decode(), args.decode()))
 
     def flush(self):
         self.port.flush()
