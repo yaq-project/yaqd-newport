@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Fixed
 - discard invalid messages recieved because the device overwrites its own output stream
+- premature busy reporting as false while still setting the position
 
 ## [2020.11.0]
 

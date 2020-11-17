@@ -63,6 +63,7 @@ class NewportMotor(UsesUart, UsesSerial, IsHomeable, HasLimits, HasPosition, IsD
 
     def __init__(self, name, config, config_filepath):
         self._homing = True
+        self._setting_position = False
         self._axis = config["axis"]
         if config["serial_port"] in NewportMotor.serial_dispatchers:
             self._serial = NewportMotor.serial_dispatchers[config["serial_port"]]
@@ -80,13 +81,19 @@ class NewportMotor(UsesUart, UsesSerial, IsHomeable, HasLimits, HasPosition, IsD
         self._tasks.append(self._loop.create_task(self._home()))
         self._tasks.append(self._loop.create_task(self._consume_from_serial()))
 
+    def busy(self):
+        return self._setting_position or super().busy()
+
     def _set_position(self, position):
+        self._setting_position = True
         async def _wait_for_ready_and_set_position(self):
             if self._state["status"].startswith("MOVING"):
                 self._serial.write(f"{self._axis}ST\r\n".encode())
             if self._busy and not self._homing:
                 await self._not_busy_sig.wait()
+                self._busy = True
             self._serial.write(f"{self._axis}PA{position}\r\n".encode())
+            self._setting_position = False
 
         self._loop.create_task(_wait_for_ready_and_set_position(self))
 
