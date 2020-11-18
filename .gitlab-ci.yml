@@ -37,7 +37,7 @@ traits:
     - yaq-traits check yaqd_newport/newport-smc100.avpr
     - yaq-traits check yaqd_newport/newport-conex-agp.avpr
 # deploy stage
-twine:
+flit:
   stage: deploy
   script:
       - flit publish
