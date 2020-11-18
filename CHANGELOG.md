@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
+ 
+## [2020.11.1]
 
 ### Fixed
 - discard invalid messages recieved because the device overwrites its own output stream
@@ -49,7 +51,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Added
 - initial release
 
-[Unreleased]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2020.11.0...master
+[Unreleased]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2020.11.1...master
+[2020.11.1]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2020.11.0...2020.11.1
 [2020.11.0]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2020.07.0...2020.11.0
 [2020.07.0]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2020.05.0...2020.07.0
 [2020.05.0]: https://gitlab.com/yaq/yaqd-newport/-/compare/v0.1.1...v2020.05.0
