@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ## Added
 - conda-forge as installation source
  
+### Fixed
+- discard invalid arguments recieved for the same reason invalid messages were written previously`
+
 ## [2020.11.1]
 
 ### Fixed
