@@ -86,6 +86,7 @@ class NewportMotor(UsesUart, UsesSerial, IsHomeable, HasLimits, HasPosition, IsD
 
     def _set_position(self, position):
         self._setting_position = True
+
         async def _wait_for_ready_and_set_position(self):
             if self._state["status"].startswith("MOVING"):
                 self._serial.write(f"{self._axis}ST\r\n".encode())
@@ -117,20 +118,37 @@ class NewportMotor(UsesUart, UsesSerial, IsHomeable, HasLimits, HasPosition, IsD
         while True:
             command, args = await self._read_queue.get()
             if "TP" == command:
-                self._state["position"] = float(args)
+                try:
+                    self._state["position"] = float(args)
+                except ValueError:
+                    logger.error(f"Cannot convert {args} to float")
             elif "TS" == command:
                 self._state["error_code"] = args[:4]
                 if self._state["error_code"] != "0000":
                     self.logger.error(f"ERROR CODE: {self._state['error_code']}")
-                self._state["status"] = self.controller_states[args[4:]]
+                try:
+                    self._state["status"] = self.controller_states[args[4:]]
+                except KeyError:
+                    pass
                 self._busy = not self._state["status"].startswith("READY") or self._homing
             elif "TE" == command:
                 if "@" not in args:
-                    self.logger.error(f"ERROR CODE {self.error_dict[args]}")
+                    try:
+                        self.logger.error(f"ERROR CODE {self.error_dict[args]}")
+                    except KeyError:
+                        self.logger.error(f"UNEXPECTED ERROR CODE: {args}")
             elif "SR" == command:
-                self._state["hw_limits"][1] = float(args)
+                try:
+                    self._state["hw_limits"][1] = float(args)
+                except ValueError:
+                    logger.error(f"Cannot convert {args} to float")
+                    self._serial.write(f"{self._axis}SR?\r\n".encode())
             elif "SL" == command:
-                self._state["hw_limits"][0] = float(args)
+                try:
+                    self._state["hw_limits"][0] = float(args)
+                except ValueError:
+                    logger.error(f"Cannot convert {args} to float")
+                    self._serial.write(f"{self._axis}SL?\r\n".encode())
             else:
                 self.logger.info(f"Unhandled serial response: {command, args}")
             self._read_queue.task_done()
