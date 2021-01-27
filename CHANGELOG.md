@@ -7,9 +7,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## Added
 - conda-forge as installation source
- 
+
 ### Fixed
-- discard invalid arguments recieved for the same reason invalid messages were written previously`
+- discard invalid arguments recieved for the same reason invalid messages were written previously
+- timing issue which caused daemons to report as "not busy" briefly after a `set_position`
 
 ## [2020.11.1]
 
