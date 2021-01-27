@@ -63,7 +63,7 @@ class NewportMotor(UsesUart, UsesSerial, IsHomeable, HasLimits, HasPosition, IsD
 
     def __init__(self, name, config, config_filepath):
         self._homing = True
-        self._setting_position = False
+        self._ignore_ready = 0
         self._axis = config["axis"]
         if config["serial_port"] in NewportMotor.serial_dispatchers:
             self._serial = NewportMotor.serial_dispatchers[config["serial_port"]]
@@ -82,10 +82,20 @@ class NewportMotor(UsesUart, UsesSerial, IsHomeable, HasLimits, HasPosition, IsD
         self._tasks.append(self._loop.create_task(self._consume_from_serial()))
 
     def busy(self):
-        return self._setting_position or super().busy()
+        return bool(self._ignore_ready or super().busy())
 
     def _set_position(self, position):
-        self._setting_position = True
+        # This value is here to prevent Status messages recieved and interpretted
+        # by the controller device but not yet handled by the daemon (either due
+        # to being in transit or due to async behavior) from resetting the busy state
+        # immediately.
+        # Basically this says to ignore the next 5 "READY" status messages (though as soon
+        # as it sees something that is not "READY" it will accept the following one)
+        # Originally, this just waited until something other than READY was seen then reset
+        # the flag, but that proved insufficent for the case of calling set position at the
+        # current position, where it never went to something other than "READY".
+        # KFS 2021-01-26
+        self._ignore_ready = 5
 
         async def _wait_for_ready_and_set_position(self):
             if self._state["status"].startswith("MOVING"):
@@ -94,7 +104,6 @@ class NewportMotor(UsesUart, UsesSerial, IsHomeable, HasLimits, HasPosition, IsD
                 await self._not_busy_sig.wait()
                 self._busy = True
             self._serial.write(f"{self._axis}PA{position}\r\n".encode())
-            self._setting_position = False
 
         self._loop.create_task(_wait_for_ready_and_set_position(self))
 
@@ -130,6 +139,12 @@ class NewportMotor(UsesUart, UsesSerial, IsHomeable, HasLimits, HasPosition, IsD
                     self._state["status"] = self.controller_states[args[4:]]
                 except KeyError:
                     pass
+                if self._ignore_ready and self._state["status"].startswith("READY"):
+                    # Decrement counter when a READY status is read after setting position
+                    self._ignore_ready -= 1
+                else:
+                    # Reset counter if any other status is read
+                    self._ignore_ready = 0
                 self._busy = not self._state["status"].startswith("READY") or self._homing
             elif "TE" == command:
                 if "@" not in args:
