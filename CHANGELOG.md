@@ -61,10 +61,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 - initial release
 
 [Unreleased]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2021.2.0...master
-[2021.2.0]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2020.11.1...2021.2.0
-[2020.11.1]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2020.11.0...2020.11.1
-[2020.11.0]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2020.07.0...2020.11.0
-[2020.07.0]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2020.05.0...2020.07.0
+[2021.2.0]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2020.11.1...v2021.2.0
+[2020.11.1]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2020.11.0...v2020.11.1
+[2020.11.0]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2020.07.0...v2020.11.0
+[2020.07.0]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2020.05.0...v2020.07.0
 [2020.05.0]: https://gitlab.com/yaq/yaqd-newport/-/compare/v0.1.1...v2020.05.0
 [0.1.1]: https://gitlab.com/yaq/yaqd-newport/-/compare/v0.1.0...v0.1.1
 [0.1.0]: https://gitlab.com/yaq/yaqd-newport/-/tags/v0.1.0
