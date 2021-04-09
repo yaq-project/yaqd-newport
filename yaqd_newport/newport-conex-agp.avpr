@@ -104,7 +104,7 @@
             "type": "string"
         }
     },
-    "doc": "Daemon for the Newport connex-agp controllers\n\nThis daemon was specifically tested with the CONEX-AG-PR100P.\nIt should, in theory, work (though with other units, potentially) for other CONEX line controllers.\n",
+    "doc": "Daemon for the Newport conex-agp controllers\n\nThis daemon was specifically tested with the CONEX-AG-PR100P.\nIt should, in theory, work (though with other units, potentially) for other CONEX line controllers.\n",
     "fields": {
         "destination": {
             "fields": {
@@ -285,7 +285,7 @@
             "response": "null"
         }
     },
-    "protocol": "newport-connex-agp",
+    "protocol": "newport-conex-agp",
     "requires": [],
     "state": {
         "destination": {
