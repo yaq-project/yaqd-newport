@@ -1,6 +1,6 @@
-protocol = "newport-connex-agp"
+protocol = "newport-conex-agp"
 doc = """
-Daemon for the Newport connex-agp controllers
+Daemon for the Newport conex-agp controllers
 
 This daemon was specifically tested with the CONEX-AG-PR100P.
 It should, in theory, work (though with other units, potentially) for other CONEX line controllers.

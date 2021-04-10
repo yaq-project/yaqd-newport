@@ -10,5 +10,5 @@
 yaq daemons for Newport Corporation hardware.
 
 This package contains two daemons:
-- [newport-connex-agp](https://yaq.fyi/daemons/newport-connex-agp/)
+- [newport-conex-agp](https://yaq.fyi/daemons/newport-conex-agp/)
 - [newport-smc100](https://yaq.fyi/daemons/newport-smc100/)
