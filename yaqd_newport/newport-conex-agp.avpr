@@ -105,43 +105,6 @@
         }
     },
     "doc": "Daemon for the Newport conex-agp controllers\n\nThis daemon was specifically tested with the CONEX-AG-PR100P.\nIt should, in theory, work (though with other units, potentially) for other CONEX line controllers.\n",
-    "fields": {
-        "destination": {
-            "fields": {
-                "dynamic": true,
-                "getter": "get_destination",
-                "kind": "normal",
-                "type": "double"
-            },
-            "name": "field",
-            "type": "record"
-        },
-        "limits": {
-            "fields": {
-                "dynamic": true,
-                "getter": "get_limits",
-                "kind": "normal",
-                "type": {
-                    "items": "double",
-                    "type": "array"
-                }
-            },
-            "name": "field",
-            "type": "record"
-        },
-        "origin": "has-position",
-        "position": {
-            "fields": {
-                "dynamic": true,
-                "getter": "get_position",
-                "kind": "hinted",
-                "setter": "set_position",
-                "type": "double"
-            },
-            "name": "field",
-            "type": "record"
-        }
-    },
     "hardware": [
         "newport:conex-ag-pr100p"
     ],
@@ -213,7 +176,7 @@
             "response": "string"
         },
         "get_units": {
-            "doc": "Get units of daemon. These units apply to the position and destination fields.",
+            "doc": "Get units of daemon. These units apply to the position and destination properties.",
             "origin": "has-position",
             "request": [],
             "response": [
@@ -283,6 +246,30 @@
                 }
             ],
             "response": "null"
+        }
+    },
+    "properties": {
+        "destination": {
+            "control_kind": "normal",
+            "dynamic": true,
+            "getter": "get_destination",
+            "limits_getter": null,
+            "options_getter": null,
+            "record_kind": "data",
+            "setter": null,
+            "type": "double",
+            "units_getter": "get_units"
+        },
+        "position": {
+            "control_kind": "hinted",
+            "dynamic": true,
+            "getter": "get_position",
+            "limits_getter": "get_limits",
+            "options_getter": null,
+            "record_kind": "data",
+            "setter": "set_position",
+            "type": "double",
+            "units_getter": "get_units"
         }
     },
     "protocol": "newport-conex-agp",
