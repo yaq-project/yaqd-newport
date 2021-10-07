@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2021.10.0]
+
+### Changed
+- regenerated avpr based on recent traits update
+
 ### Fixed
 - added forgotten config options to is-daemon: enable, log_level, and log_to_file
 
@@ -63,7 +68,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Added
 - initial release
 
-[Unreleased]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2021.2.0...master
+[Unreleased]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2021.10.0...master
+[2021.10.0]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2021.2.0...v2021.10.0
 [2021.2.0]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2020.11.1...v2021.2.0
 [2020.11.1]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2020.11.0...v2020.11.1
 [2020.11.0]: https://gitlab.com/yaq/yaqd-newport/-/compare/v2020.07.0...v2020.11.0
