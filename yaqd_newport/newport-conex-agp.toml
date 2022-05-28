@@ -32,6 +32,23 @@ status.default = ""
 error_code.type = "string"
 error_code.doc = "Four digit code describing error conditions in the Tell Status (TS) command."
 error_code.default = "0000"
+reference_position.type = "float"
+reference_position.doc = "Device reference position. Reports position as {absolute position} - offset"
+reference_position.default = 0.0
+
+[messages]
+set_reference_position.request = [{"name"="offset", "type"="float"}]
+get_reference_position.response = "float"
+
+[properties]
+
+[properties.offset]
+setter = "set_reference_position"
+getter = "get_reference_position"
+limits_getter = "get_limits"
+control_kind = "normal"
+record_kind = "metadata"
+type = "float"
 
 [installation]
 PyPI = "https://pypi.org/project/yaqd-newport"

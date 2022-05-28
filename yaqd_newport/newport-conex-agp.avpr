@@ -169,6 +169,10 @@
             "request": [],
             "response": "double"
         },
+        "get_reference_position": {
+            "request": [],
+            "response": "float"
+        },
         "get_state": {
             "doc": "Get version of the running daemon",
             "origin": "is-daemon",
@@ -224,6 +228,15 @@
             ],
             "response": "null"
         },
+        "set_reference_position": {
+            "request": [
+                {
+                    "name": "offset",
+                    "type": "float"
+                }
+            ],
+            "response": "null"
+        },
         "set_relative": {
             "doc": "Give the daemon a new destination relative to its current position. Daemon will immediately begin motion towards new destination. Returns new destination.",
             "origin": "has-position",
@@ -259,6 +272,17 @@
             "setter": null,
             "type": "double",
             "units_getter": "get_units"
+        },
+        "offset": {
+            "control_kind": "normal",
+            "dynamic": true,
+            "getter": "get_reference_position",
+            "limits_getter": "get_limits",
+            "options_getter": null,
+            "record_kind": "metadata",
+            "setter": "set_reference_position",
+            "type": "float",
+            "units_getter": null
         },
         "position": {
             "control_kind": "hinted",
@@ -298,6 +322,11 @@
             "default": NaN,
             "origin": "has-position",
             "type": "double"
+        },
+        "reference_position": {
+            "default": 0.0,
+            "doc": "Device reference position. Reports position as {absolute position} - offset",
+            "type": "float"
         },
         "status": {
             "default": "",
