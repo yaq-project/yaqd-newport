@@ -1,4 +1,5 @@
 from ._newport_motor import NewportMotor
+from yaqd_core import HasLimits
 
 
 class NewportConexAGP(NewportMotor):
