@@ -39,13 +39,14 @@ reference_position.default = 0.0
 [messages]
 set_reference_position.request = [{"name"="offset", "type"="float"}]
 get_reference_position.response = "float"
+get_limits_relative.response = [{"type"="array", "items"="float"}]
 
 [properties]
 
 [properties.offset]
 setter = "set_reference_position"
 getter = "get_reference_position"
-limits_getter = "get_limits"
+limits_getter = "get_limits_relative"
 control_kind = "normal"
 record_kind = "metadata"
 type = "float"

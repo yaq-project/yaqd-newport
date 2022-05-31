@@ -6,32 +6,28 @@ class NewportConexAGP(NewportMotor):
     _kind = "newport-conex-agp"
 
     def set_position(self, position: float) -> None:
-        """
-        specify desired position, relative to offset
-        """
-        position += self._state["reference_position"]
-        HasLimits.set_position(self, position)
+        super().set_position(self._to_absolute(position))
 
     def get_position(self) -> float:
-        """
-        reports the position _relative to reference position_
-        i.e. that this position differs from the state position
-        """
-        return self._state["position"] - self._state["reference_position"]
+        return self._to_reference(self._state["position"])
 
     def get_destination(self) -> float:
-        """
-        reports destination _relative to reference position_
-        i.e. that this destination differs from the state position
-        """
-        return self._state["destination"] - self._state["reference_position"]
+        return self._to_reference(self._state["destination"])
 
     def get_reference_position(self) -> float:
         return self._state["reference_position"]
 
     def set_reference_position(self, reference):
-        assert self.in_limits(reference)
-        old_reference = self._state["reference_position"]
-        reference_change = reference - old_reference
-        self._state["reference_position"] = reference
+        self._state["reference_position"] = self._to_absolute(reference)
 
+    def in_limits_relative(self, position: float) -> bool:
+        return super().in_limits(self._to_absolute(position))
+
+    def get_limits_relative(self) -> List[float]:
+        return [self._to_reference(lim) for lim in super().get_limits()]
+
+    def _to_absolute(self, position):
+        return position + self._state["reference_position"]
+
+    def _to_reference(self, position):
+        return position - self._state["reference_position"]

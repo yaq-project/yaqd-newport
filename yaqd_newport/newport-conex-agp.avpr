@@ -163,6 +163,15 @@
                 "type": "array"
             }
         },
+        "get_limits_relative": {
+            "request": [],
+            "response": [
+                {
+                    "items": "float",
+                    "type": "array"
+                }
+            ]
+        },
         "get_position": {
             "doc": "Get current daemon position.",
             "origin": "has-position",
@@ -277,7 +286,7 @@
             "control_kind": "normal",
             "dynamic": true,
             "getter": "get_reference_position",
-            "limits_getter": "get_limits",
+            "limits_getter": "get_limits_relative",
             "options_getter": null,
             "record_kind": "metadata",
             "setter": "set_reference_position",
