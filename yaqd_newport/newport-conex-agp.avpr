@@ -297,7 +297,7 @@
             "response": "null"
         },
         "to_native": {
-            "doc": "Convert a transformed coordinate to native.\nThis is for debugging purposes and is not be encouraged for normal use.",
+            "doc": "Convert a transformed coordinate to native.\nThis is for debugging purposes and is discouraged in normal use.",
             "origin": "has-transformed-position",
             "request": [
                 {
@@ -308,7 +308,7 @@
             "response": "double"
         },
         "to_transformed": {
-            "doc": "Convert a native coordinate to transformed.\nThis is for debugging purposes and is not be encouraged for normal use.",
+            "doc": "Convert a native coordinate to transformed.\nThis is for debugging purposes and is discouraged in normal use.",
             "origin": "has-transformed-position",
             "request": [
                 {
@@ -324,7 +324,7 @@
             "control_kind": "hinted",
             "dynamic": true,
             "getter": "get_destination",
-            "limits_getter": null,
+            "limits_getter": "get_limits",
             "options_getter": null,
             "record_kind": "data",
             "setter": "set_position",
