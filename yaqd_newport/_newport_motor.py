@@ -2,11 +2,21 @@ import asyncio
 import time
 from typing import Dict, List, Optional
 
-from yaqd_core import HasTransformedPosition, UsesUart, UsesSerial, IsHomeable, HasLimits, HasPosition, IsDaemon
+from yaqd_core import (
+    HasTransformedPosition,
+    UsesUart,
+    UsesSerial,
+    IsHomeable,
+    HasLimits,
+    HasPosition,
+    IsDaemon,
+)
 from ._serial import SerialDispatcher
 
 
-class NewportMotor(UsesUart, UsesSerial, IsHomeable, HasTransformedPosition, HasLimits, HasPosition, IsDaemon):
+class NewportMotor(
+    UsesUart, UsesSerial, IsHomeable, HasTransformedPosition, HasLimits, HasPosition, IsDaemon
+):
     _kind = "newport-motor"
 
     error_dict = {
