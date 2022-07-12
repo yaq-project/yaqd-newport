@@ -184,7 +184,7 @@ class NewportMotor(UsesUart, UsesSerial, IsHomeable, HasTransformedPosition, Has
         await asyncio.sleep(0.2)
         while not self._state["status"].startswith("READY"):
             await asyncio.sleep(0.1)
-        self.set_position(self._state["destination"])
+        self.set_native_position(self._state["destination"])
         self._homing = False
 
     def direct_serial_write(self, command: bytes):
