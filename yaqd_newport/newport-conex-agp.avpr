@@ -114,9 +114,9 @@
     },
     "links": {
         "PR100P": "https://www.newport.com/p/CONEX-AG-PR100P",
-        "bugtracker": "https://gitlab.com/yaq/yaqd-newport/issues",
+        "bugtracker": "https://github.com/yaq-project/yaqd-newport/issues",
         "manufacturer": "https://www.newport.com/c/controller-%26-stage-kits",
-        "source": "https://gitlab.com/yaq/yaqd-newport/"
+        "source": "https://github.com/yaq-project/yaqd-newport/"
     },
     "messages": {
         "busy": {

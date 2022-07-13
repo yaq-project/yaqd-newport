@@ -114,9 +114,9 @@
         "conda-forge": "https://anaconda.org/conda-forge/yaqd-newport"
     },
     "links": {
-        "bugtracker": "https://gitlab.com/yaq/yaqd-newport/issues",
+        "bugtracker": "https://github.com/yaq-project/yaqd-newport/issues",
         "manufacturer": "https://www.newport.com/f/smc100-single-axis-dc-or-stepper-motion-controller",
-        "source": "https://gitlab.com/yaq/yaqd-newport/"
+        "source": "https://github.com/yaq-project/yaqd-newport/"
     },
     "messages": {
         "busy": {
