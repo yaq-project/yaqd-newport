@@ -23,8 +23,8 @@ classifiers = [
 ]
 
 [tool.flit.metadata.urls]
-Source = "https://gitlab.com/yaq/yaqd-newport"
-Issues = "https://gitlab.com/yaq/yaqd-newport/issues"
+Source = "https://github.com/yaq-project/yaqd-newport"
+Issues = "https://github.com/yaq-project/yaqd-newport/issues"
 
 [tool.flit.metadata.requires-extra]
 dev = ["black", "pre-commit"]

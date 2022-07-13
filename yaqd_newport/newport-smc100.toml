@@ -6,8 +6,8 @@ traits = ["has-limits", "is-homeable", "uses-uart", "is-daemon"]
 hardware = ["newport:mfa-cc", "newport:smc100cc", "newport:smc100pp"]
 
 [links]
-source = "https://gitlab.com/yaq/yaqd-newport/"
-bugtracker = "https://gitlab.com/yaq/yaqd-newport/issues"
+source = "https://github.com/yaq-project/yaqd-newport/"
+bugtracker = "https://github.com/yaq-project/yaqd-newport/issues"
 manufacturer = "https://www.newport.com/f/smc100-single-axis-dc-or-stepper-motion-controller"
 
 [config]
