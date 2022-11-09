@@ -2,11 +2,21 @@ import asyncio
 import time
 from typing import Dict, List, Optional
 
-from yaqd_core import UsesUart, UsesSerial, IsHomeable, HasLimits, HasPosition, IsDaemon
+from yaqd_core import (
+    HasTransformedPosition,
+    UsesUart,
+    UsesSerial,
+    IsHomeable,
+    HasLimits,
+    HasPosition,
+    IsDaemon,
+)
 from ._serial import SerialDispatcher
 
 
-class NewportMotor(UsesUart, UsesSerial, IsHomeable, HasLimits, HasPosition, IsDaemon):
+class NewportMotor(
+    UsesUart, UsesSerial, IsHomeable, HasTransformedPosition, HasLimits, HasPosition, IsDaemon
+):
     _kind = "newport-motor"
 
     error_dict = {
@@ -184,7 +194,7 @@ class NewportMotor(UsesUart, UsesSerial, IsHomeable, HasLimits, HasPosition, IsD
         await asyncio.sleep(0.2)
         while not self._state["status"].startswith("READY"):
             await asyncio.sleep(0.1)
-        self.set_position(self._state["destination"])
+        self.set_position(self.get_destination())
         self._homing = False
 
     def direct_serial_write(self, command: bytes):

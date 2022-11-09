@@ -5,7 +5,7 @@ Daemon for the Newport conex-agp controllers
 This daemon was specifically tested with the CONEX-AG-PR100P.
 It should, in theory, work (though with other units, potentially) for other CONEX line controllers.
 """
-traits = ["has-limits", "is-homeable", "uses-uart", "is-daemon"]
+traits = ["has-transformed-position", "has-limits", "is-homeable", "uses-uart", "is-daemon"]
 hardware = ["newport:conex-ag-pr100p"]
 
 [links]
@@ -32,6 +32,10 @@ status.default = ""
 error_code.type = "string"
 error_code.doc = "Four digit code describing error conditions in the Tell Status (TS) command."
 error_code.default = "0000"
+
+[messages]
+
+[properties]
 
 [installation]
 PyPI = "https://pypi.org/project/yaqd-newport"

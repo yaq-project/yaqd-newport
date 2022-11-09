@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+- `newport-conex-agp` and `newport-smc100` use new trait `has-transformed-position`
+
 ### Changed
 - migrated to github
 
