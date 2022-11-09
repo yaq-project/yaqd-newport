@@ -2,7 +2,7 @@ protocol = "newport-smc100"
 doc = """
 Daemon for the Newport smc100-[CC|PP] controllers
 """
-traits = ["has-limits", "is-homeable", "uses-uart", "is-daemon"]
+traits = ["has-transformed-position", "has-limits", "is-homeable", "uses-uart", "is-daemon"]
 hardware = ["newport:mfa-cc", "newport:smc100cc", "newport:smc100pp"]
 
 [links]
