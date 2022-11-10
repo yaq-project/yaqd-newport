@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2022.11.0]
+
 ### Added
 - `newport-conex-agp` and `newport-smc100` use new trait `has-transformed-position`
 
@@ -74,7 +76,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/yaq-project/yaqd-newport/compare/v2021.10.0...main
+[Unreleased]: https://github.com/yaq-project/yaqd-newport/compare/v2022.11.0...main
+[2022.11.0]: https://github.com/yaq-project/yaqd-newport/compare/v2021.2.0...v2022.11.0
 [2021.10.0]: https://github.com/yaq-project/yaqd-newport/compare/v2021.2.0...v2021.10.0
 [2021.2.0]: https://github.com/yaq-project/yaqd-newport/compare/v2020.11.1...v2021.2.0
 [2020.11.1]: https://github.com/yaq-project/yaqd-newport/compare/v2020.11.0...v2020.11.1
