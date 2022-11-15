@@ -163,6 +163,12 @@
                 "type": "array"
             }
         },
+        "get_native_destination": {
+            "doc": "Get the destination in native coordinates.",
+            "origin": "has-transformed-position",
+            "request": [],
+            "response": "double"
+        },
         "get_native_limits": {
             "doc": "Returns limits in the relative coordinate system.",
             "origin": "has-transformed-position",
@@ -188,7 +194,10 @@
             "doc": "Get the units of native coordinates.",
             "origin": "has-transformed-position",
             "request": [],
-            "response": "string"
+            "response": [
+                "null",
+                "string"
+            ]
         },
         "get_position": {
             "doc": "Get current daemon position.",
