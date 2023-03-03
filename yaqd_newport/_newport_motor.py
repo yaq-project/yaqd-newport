@@ -152,6 +152,7 @@ class NewportMotor(
                 if self._ignore_ready and self._state["status"].startswith("READY"):
                     # Decrement counter when a READY status is read after setting position
                     self._ignore_ready -= 1
+                    self.logger.debug(f"ignored ready, {self._ignore_ready} remaining")
                 else:
                     # Reset counter if any other status is read
                     self._ignore_ready = 0
