@@ -6,6 +6,8 @@ from yaqd_core import aserial, logging
 
 class SerialDispatcher:
     def __init__(self, port, baudrate):
+        self.name = str(port)
+        self.logger = logging.getLogger(self.name)
         self.port = aserial.ASerial(port, baudrate)
         self.workers = {}
         self.write_queue = asyncio.Queue()
@@ -21,6 +23,7 @@ class SerialDispatcher:
     async def do_writes(self):
         while True:
             data = await self.write_queue.get()
+            self.logger.debug(f"writing {data}")
             self.port.write(data)
             self.write_queue.task_done()
             await asyncio.sleep(0.01)
@@ -30,6 +33,7 @@ class SerialDispatcher:
         async for line in self.port.areadlines():
             line = re.sub(rb"\s", b"", line.strip())
             match = parse.match(line)
+            self.logger.debug(f"readline: {line}")
             if match is None:
                 continue
             index, command, args = match.groups()
