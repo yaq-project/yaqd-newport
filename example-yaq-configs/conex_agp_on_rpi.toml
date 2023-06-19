@@ -1,0 +1,3 @@
+[opa4_g1]
+port = 39001
+serial_port = "/dev/serial/by-id/usb-Newport_CONEX-AGP_A6WOIHZ6-if00-port0"
