@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2023.8.0]
+
+### Fixed
+- force new yaqd-core with fixes to `has-transformed-position`
+
 ## [2022.11.0]
 
 ### Added
@@ -76,7 +81,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/yaq-project/yaqd-newport/compare/v2022.11.0...main
+[Unreleased]: https://github.com/yaq-project/yaqd-newport/compare/v2023.8.0...main
+[2023.8.0]: https://github.com/yaq-project/yaqd-newport/compare/v2022.11.0...v2023.8.0
 [2022.11.0]: https://github.com/yaq-project/yaqd-newport/compare/v2021.2.0...v2022.11.0
 [2021.10.0]: https://github.com/yaq-project/yaqd-newport/compare/v2021.2.0...v2021.10.0
 [2021.2.0]: https://github.com/yaq-project/yaqd-newport/compare/v2020.11.1...v2021.2.0
