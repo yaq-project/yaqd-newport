@@ -34,6 +34,7 @@ error_code.doc = "Four digit code describing error conditions in the Tell Status
 error_code.default = "0000"
 
 [messages]
+clear_disable.request = []
 
 [properties]
 

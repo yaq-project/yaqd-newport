@@ -117,6 +117,19 @@ class NewportMotor(
 
         self._loop.create_task(_wait_for_ready_and_set_position(self))
 
+    def clear_disable(self):
+        self.logger.debug(f"--- set_status_ready ---")
+
+        async def _set_ready(self):
+            self._serial.write(f"{self._axis}MM1\r\n".encode())
+
+        status = self._state["status"]
+        if status.startswith("DISABLE"):
+            self._loop.create_task(_set_ready(self))
+        elif status != "READY":
+            self.logger.error(f"clear_disable: can only set READY from DISABLE, not {status}")
+
+
     async def update_state(self):
         while True:
             if not self._homing:
