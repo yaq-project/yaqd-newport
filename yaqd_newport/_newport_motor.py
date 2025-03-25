@@ -126,7 +126,7 @@ class NewportMotor(
         status = self._state["status"]
         if status.startswith("DISABLE"):
             self._loop.create_task(_set_ready(self))
-        elif status != "READY":
+        elif not status.startswith("READY"):
             self.logger.error(f"clear_disable: can only set READY from DISABLE, not {status}")
 
     async def update_state(self):
