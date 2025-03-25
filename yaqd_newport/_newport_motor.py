@@ -129,7 +129,6 @@ class NewportMotor(
         elif status != "READY":
             self.logger.error(f"clear_disable: can only set READY from DISABLE, not {status}")
 
-
     async def update_state(self):
         while True:
             if not self._homing:
