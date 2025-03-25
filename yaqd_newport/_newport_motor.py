@@ -140,7 +140,7 @@ class NewportMotor(
                 try:
                     self._state["position"] = float(args)
                 except ValueError:
-                    logger.error(f"Cannot convert {args} to float")
+                    self.logger.error(f"Cannot convert {args} to float")
             elif "TS" == command:
                 self._state["error_code"] = args[:4]
                 if self._state["error_code"] != "0000":
@@ -166,13 +166,13 @@ class NewportMotor(
                 try:
                     self._state["hw_limits"][1] = float(args)
                 except ValueError:
-                    logger.error(f"Cannot convert {args} to float")
+                    self.logger.error(f"Cannot convert {args} to float")
                     self._serial.write(f"{self._axis}SR?\r\n".encode())
             elif "SL" == command:
                 try:
                     self._state["hw_limits"][0] = float(args)
                 except ValueError:
-                    logger.error(f"Cannot convert {args} to float")
+                    self.logger.error(f"Cannot convert {args} to float")
                     self._serial.write(f"{self._axis}SL?\r\n".encode())
             else:
                 self.logger.info(f"Unhandled serial response: {command, args}")
