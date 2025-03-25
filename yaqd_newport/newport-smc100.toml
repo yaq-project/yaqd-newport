@@ -29,6 +29,9 @@ error_code.type = "string"
 error_code.doc = "Four digit code describing error conditions in the Tell Status (TS) command."
 error_code.default = "0000"
 
+[messages]
+clear_disable.request = []
+
 [installation]
 PyPI = "https://pypi.org/project/yaqd-newport"
 conda-forge = "https://anaconda.org/conda-forge/yaqd-newport"
