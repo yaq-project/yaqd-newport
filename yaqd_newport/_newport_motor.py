@@ -118,7 +118,6 @@ class NewportMotor(
         self._loop.create_task(_wait_for_ready_and_set_position(self))
 
     def clear_disable(self):
-        self.logger.debug(f"--- set_status_ready ---")
 
         async def _set_ready(self):
             self._serial.write(f"{self._axis}MM1\r\n".encode())
@@ -157,6 +156,11 @@ class NewportMotor(
                 self._state["error_code"] = args[:4]
                 if self._state["error_code"] != "0000":
                     self.logger.error(f"ERROR CODE: {self._state['error_code']}")
+                    if self._state["error_code"] == "0020":  #  motion timeout
+                        if abs(err := (self._state["position"] - self._state["destination"])) \
+                            <= (tol := self._config["software_tolerance"]):
+                            self.logger.info(f"position error {err} is within tolerance {tol}, clearing...")
+                            self.clear_disable()
                 try:
                     self._state["status"] = self.controller_states[args[4:]]
                 except KeyError:
