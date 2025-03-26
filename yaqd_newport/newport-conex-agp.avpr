@@ -108,6 +108,11 @@
             "origin": "uses-uart",
             "type": "string"
         },
+        "software_tolerance": {
+            "default": 0.0001,
+            "doc": "allowable error to clear a hardware positioning timeout",
+            "type": "float"
+        },
         "units": {
             "default": "deg",
             "doc": "Units for the motor attatched to the controller",
