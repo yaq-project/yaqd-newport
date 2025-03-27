@@ -24,9 +24,9 @@ units.doc = "Units for the motor attatched to the controller"
 make.defult = "newport"
 model.default = "CONEX-AGP"
 baud_rate.default = 921600
-software_tolerance.doc = "allowable error to clear a hardware positioning timeout"
+software_tolerance.doc = "allowable error, in default units, to clear a hardware positioning timeout"
 software_tolerance.type = "float"
-software_tolerance.default = 1e-4
+software_tolerance.default = 0
 
 
 [state]
