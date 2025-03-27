@@ -109,8 +109,8 @@
             "type": "string"
         },
         "software_tolerance": {
-            "default": 0.0001,
-            "doc": "allowable error to clear a hardware positioning timeout",
+            "default": 0,
+            "doc": "allowable error, in default units, to clear a hardware positioning timeout",
             "type": "float"
         },
         "units": {
