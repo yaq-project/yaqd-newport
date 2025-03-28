@@ -121,7 +121,7 @@ class NewportMotor(
         async def _clear_disable(self):
             self._serial.write(f"{self._axis}MM1\r\n".encode())
 
-        self.logger.info(f"status: {self._state["status"]}")
+        self.logger.info(f"clear_disable: status is {self._state['status']}")
         self._loop.create_task(_clear_disable(self))
 
     async def update_state(self):
