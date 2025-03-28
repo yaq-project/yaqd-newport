@@ -160,7 +160,7 @@ class NewportMotor(
                                 f"position error {diff} is within tolerance {tol}, clearing..."
                             )
                             # give time for disable to occur
-                            self._loop.call_later(0.2, self.clear_disable)   
+                            self._loop.call_later(0.2, self.clear_disable)
                         else:
                             self.logger.error(f"position error {diff} is outside tolerance {tol}")
                 try:
