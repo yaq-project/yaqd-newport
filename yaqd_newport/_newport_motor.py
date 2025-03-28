@@ -118,14 +118,11 @@ class NewportMotor(
         self._loop.create_task(_wait_for_ready_and_set_position(self))
 
     def clear_disable(self):
-        async def _set_ready(self):
+        async def _clear_disable(self):
             self._serial.write(f"{self._axis}MM1\r\n".encode())
 
-        status = self._state["status"]
-        if status.startswith("DISABLE"):
-            self._loop.create_task(_set_ready(self))
-        elif not status.startswith("READY"):
-            self.logger.error(f"clear_disable: can only set READY from DISABLE, not {status}")
+        self.logger.info(f"status: {self._state["status"]}")
+        self._loop.create_task(_clear_disable(self))
 
     async def update_state(self):
         while True:
@@ -153,16 +150,19 @@ class NewportMotor(
                     self.logger.error(f"Cannot convert {args} to float")
             elif "TS" == command:
                 self._state["error_code"] = args[:4]
-                if self._state["error_code"] != "0000":
-                    self.logger.error(f"ERROR CODE: {self._state['error_code']}")
-                    if self._state["error_code"] == "0020":  #  motion timeout
-                        if abs(err := (self._state["position"] - self._state["destination"])) <= (
+                if (errorcode := self._state["error_code"]) != "0000":
+                    self.logger.error(f"ERROR CODE: {errorcode}")
+                    if errorcode == "0020":  #  motion timeout
+                        if abs(diff := (self._state["position"] - self._state["destination"])) <= (
                             tol := self._config["software_tolerance"]
                         ):
                             self.logger.info(
-                                f"position error {err} is within tolerance {tol}, clearing..."
+                                f"position error {diff} is within tolerance {tol}, clearing..."
                             )
-                            self.clear_disable()
+                            # give time for disable to occur
+                            self._loop.call_later(0.2, self.clear_disable)   
+                        else:
+                            self.logger.error(f"position error {diff} is outside tolerance {tol}")
                 try:
                     self._state["status"] = self.controller_states[args[4:]]
                 except KeyError:
