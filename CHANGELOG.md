@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 - `newport-conex-agp` and `newport-smc100` have new method `clear_disable`
-- config `software_tolerance`, which sets the allowable positioning error for clearing hardware positioning timeouts 
+- config `software_tolerance`, which sets the allowable positioning error for clearing hardware positioning timeouts
 
 ## [2023.8.0]
 
