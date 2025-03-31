@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'workflows'
 
 jobs:
   build:
@@ -62,7 +63,7 @@ jobs:
 
   publish-to-testpypi:
     name: Publish Python 🐍 distribution 📦 to TestPyPI
-    if: github.ref_name == 'main'  # only publish to testpypi if testing is important
+    if: github.ref_name == 'workflows'  # only publish to testpypi if testing is important
     needs:
     - build
     runs-on: ubuntu-latest
