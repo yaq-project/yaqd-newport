@@ -25,6 +25,8 @@ except:
     __branch__ = ""
 
 
-publishing = "pypi.org/p/yaqd-newport" in os.getenv("url", "")
+publishing = "pypi.org" in os.getenv("url", "")
+print(os.getenv("url", "URL VAR NOT FOUND"))
+print(publishing)
 if __branch__ and not publishing:
     __version__ += "+" + __branch__

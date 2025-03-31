@@ -11,7 +11,6 @@ maintainers = [
   {name="yaq developers"},
 ]
 readme = "README.md"
-description = "yaq daemons for Newport motors"
 requires-python = ">=3.7"
 dependencies = ["yaqd-core>=2023.6.0", "pyserial"]
 classifiers = [
@@ -26,7 +25,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Topic :: Scientific/Engineering",
 ]
-dynamic = ["version"]
+dynamic = ["version", "description"]
 
 [project.urls]
 Homepage = "https://yaq.fyi"
