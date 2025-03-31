@@ -1,3 +1,5 @@
+# - publishes to pypi.org on tag creation
+# - publishes to test.pypi.org on a commit to a specified branch
 name: Publish yaqd-newport
 
 on:
@@ -63,7 +65,7 @@ jobs:
 
   publish-to-testpypi:
     name: Publish Python 🐍 distribution 📦 to TestPyPI
-    if: github.ref_name == 'workflows'  # only publish to testpypi if testing is important
+    if: github.ref_name == 'workflows'
     needs:
     - build
     runs-on: ubuntu-latest
