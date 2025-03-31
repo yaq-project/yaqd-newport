@@ -2,6 +2,7 @@
 
 import pathlib
 import subprocess
+import os
 
 
 here = pathlib.Path(__file__).resolve().parent
@@ -23,5 +24,7 @@ try:
 except:
     __branch__ = ""
 
-if __branch__:
+
+publishing = "pypi.org/p/yaqd-newport" in os.getenv("url", "")
+if __branch__ and not publishing:
     __version__ += "+" + __branch__
