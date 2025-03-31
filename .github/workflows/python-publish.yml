@@ -1,5 +1,5 @@
-# - publishes to pypi.org on tag creation
-# - publishes to test.pypi.org on a commit to a specified branch
+# - tag creation publishes to pypi.org
+# - pushes to specified branch publishes to test.pypi.org
 name: Publish yaqd-newport
 
 on:
@@ -8,8 +8,6 @@ on:
   push:
     branches:
       - 'main'
-      - 'workflows'
-
 
 env:
   remove_local_version: true
