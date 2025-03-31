@@ -25,8 +25,6 @@ except:
     __branch__ = ""
 
 
-publishing = "pypi.org" in os.getenv("url", "")
-print(os.getenv("url", "URL VAR NOT FOUND"))
-print(publishing)
+publishing = os.environ.get("remove_local_version") == "true"
 if __branch__ and not publishing:
     __version__ += "+" + __branch__
