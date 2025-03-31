@@ -1,16 +1,19 @@
 [build-system]
-requires = ["flit_core >=2,<4"]
+requires = ["flit_core >=3.2"]
 build-backend = "flit_core.buildapi"
 
-[tool.flit.metadata]
-module = "yaqd_newport"
-dist-name = "yaqd-newport"
-author = "yaq Developers"
-author-email = "git@ksunden.space"
-home-page = "https://yaq.fyi"
-description-file = "README.md"
+[project]
+name = "yaqd-newport"
+author = [
+  {name="Kyle Sunden", email="git@ksunden.space"}
+]
+maintainers = [
+  {name="yaq developers"},
+]
+readme = "README.md"
+description = "yaq daemons for Newport motors"
 requires-python = ">=3.7"
-requires = ["yaqd-core>=2023.6.0", "pyserial"]
+dependencies = ["yaqd-core>=2023.6.0", "pyserial"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
@@ -23,15 +26,20 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Topic :: Scientific/Engineering",
 ]
+dynamic = ["version"]
 
-[tool.flit.metadata.urls]
+[project.urls]
+Homepage = "https://yaq.fyi"
 Source = "https://github.com/yaq-project/yaqd-newport"
 Issues = "https://github.com/yaq-project/yaqd-newport/issues"
 
-[tool.flit.metadata.requires-extra]
+[tool.flit.module]
+name = "yaqd_newport"
+
+[tool.optional-dependencies]
 dev = ["black", "pre-commit"]
 
-[tool.flit.scripts]
+[project.scripts]
 yaqd-newport-smc100="yaqd_newport._newport_smc100:NewportSMC100.main"
 yaqd-newport-conex-agp="yaqd_newport._newport_conex_agp:NewportConexAGP.main"
 

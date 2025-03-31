@@ -45,7 +45,7 @@ jobs:
 
     environment:
       name: pypi
-      url: https://pypi.org/p/yaqd-seabreeze
+      url: https://pypi.org/p/yaqd-newport
 
     permissions:
       id-token: write
