@@ -10,7 +10,7 @@ on:
       - 'main'
 
 env:
-  remove_local_version: true
+  no_local_version: true
 
 jobs:
   build:
@@ -67,7 +67,7 @@ jobs:
 
   publish-to-testpypi:
     name: Publish Python 🐍 distribution 📦 to TestPyPI
-    if: github.ref_name == 'workflows'
+    if: github.ref_name == 'main'
     needs:
     - build
     runs-on: ubuntu-latest

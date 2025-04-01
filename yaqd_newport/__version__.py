@@ -25,6 +25,6 @@ except:
     __branch__ = ""
 
 
-publishing = os.environ.get("remove_local_version") == "true"
+publishing = os.getenv("no_local_version") == "true"
 if __branch__ and not publishing:
     __version__ += "+" + __branch__
