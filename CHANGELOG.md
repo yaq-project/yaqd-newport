@@ -9,6 +9,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 - `newport-conex-agp` and `newport-smc100` have new method `clear_disable`
 - config `software_tolerance`, which sets the allowable positioning error for clearing hardware positioning timeouts
 
+## [2025.3.0]
+
+### Fixed
+- updated publish workflow--we are back on pypi
+
 ## [2023.8.0]
 
 ### Fixed
@@ -85,7 +90,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/yaq-project/yaqd-newport/compare/v2023.8.0...main
+[Unreleased]: https://github.com/yaq-project/yaqd-newport/compare/v2025.3.0...main
+[2025.3.0]: https://github.com/yaq-project/yaqd-newport/compare/v2023.8.0...v2025.3.0
 [2023.8.0]: https://github.com/yaq-project/yaqd-newport/compare/v2022.11.0...v2023.8.0
 [2022.11.0]: https://github.com/yaq-project/yaqd-newport/compare/v2021.2.0...v2022.11.0
 [2021.10.0]: https://github.com/yaq-project/yaqd-newport/compare/v2021.2.0...v2021.10.0
