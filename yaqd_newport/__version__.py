@@ -25,6 +25,7 @@ except:
     __branch__ = ""
 
 
+# published tar-gz had branch in filename and would not upload to pypi
 publishing = os.getenv("no_local_version") == "true"
 if __branch__ and not publishing:
     __version__ += "+" + __branch__
