@@ -20,6 +20,9 @@ units.doc = "Units for the motor attatched to the controller"
 make.default = "newport"
 model.default = "SMC100"
 baud_rate.default = 57600
+software_tolerance.doc = "allowable error, in default units, to clear a hardware positioning timeout"
+software_tolerance.type = "float"
+software_tolerance.default = 0
 
 [state]
 status.type = "string"
@@ -28,6 +31,9 @@ status.default = ""
 error_code.type = "string"
 error_code.doc = "Four digit code describing error conditions in the Tell Status (TS) command."
 error_code.default = "0000"
+
+[messages]
+clear_disable.request = []
 
 [installation]
 PyPI = "https://pypi.org/project/yaqd-newport"

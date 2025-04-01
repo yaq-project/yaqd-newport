@@ -117,6 +117,13 @@ class NewportMotor(
 
         self._loop.create_task(_wait_for_ready_and_set_position(self))
 
+    def clear_disable(self):
+        async def _clear_disable(self):
+            self._serial.write(f"{self._axis}MM1\r\n".encode())
+
+        self.logger.info(f"clear_disable: status is {self._state['status']}")
+        self._loop.create_task(_clear_disable(self))
+
     async def update_state(self):
         while True:
             if not self._homing:
@@ -140,11 +147,22 @@ class NewportMotor(
                 try:
                     self._state["position"] = float(args)
                 except ValueError:
-                    logger.error(f"Cannot convert {args} to float")
+                    self.logger.error(f"Cannot convert {args} to float")
             elif "TS" == command:
                 self._state["error_code"] = args[:4]
-                if self._state["error_code"] != "0000":
-                    self.logger.error(f"ERROR CODE: {self._state['error_code']}")
+                if (errorcode := self._state["error_code"]) != "0000":
+                    self.logger.error(f"ERROR CODE: {errorcode}")
+                    if errorcode == "0020":  #  motion timeout
+                        if abs(diff := (self._state["position"] - self._state["destination"])) <= (
+                            tol := self._config["software_tolerance"]
+                        ):
+                            self.logger.info(
+                                f"position error {diff} is within tolerance {tol}, clearing..."
+                            )
+                            # give time for disable to occur
+                            self._loop.call_later(0.2, self.clear_disable)
+                        else:
+                            self.logger.error(f"position error {diff} is outside tolerance {tol}")
                 try:
                     self._state["status"] = self.controller_states[args[4:]]
                 except KeyError:
@@ -166,13 +184,13 @@ class NewportMotor(
                 try:
                     self._state["hw_limits"][1] = float(args)
                 except ValueError:
-                    logger.error(f"Cannot convert {args} to float")
+                    self.logger.error(f"Cannot convert {args} to float")
                     self._serial.write(f"{self._axis}SR?\r\n".encode())
             elif "SL" == command:
                 try:
                     self._state["hw_limits"][0] = float(args)
                 except ValueError:
-                    logger.error(f"Cannot convert {args} to float")
+                    self.logger.error(f"Cannot convert {args} to float")
                     self._serial.write(f"{self._axis}SL?\r\n".encode())
             else:
                 self.logger.info(f"Unhandled serial response: {command, args}")
