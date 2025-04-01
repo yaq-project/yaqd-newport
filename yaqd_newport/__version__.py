@@ -2,6 +2,7 @@
 
 import pathlib
 import subprocess
+import os
 
 
 here = pathlib.Path(__file__).resolve().parent
@@ -23,5 +24,7 @@ try:
 except:
     __branch__ = ""
 
-if __branch__:
+
+publishing = os.getenv("no_local_version") == "true"
+if __branch__ and not publishing:
     __version__ += "+" + __branch__
