@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "yaqd-newport"
-author = [
+authors = [
   {name="Kyle Sunden", email="git@ksunden.space"}
 ]
 maintainers = [
