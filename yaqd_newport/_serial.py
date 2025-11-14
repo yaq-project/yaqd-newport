@@ -9,7 +9,7 @@ class SerialDispatcher:
         self.port = aserial.ASerial(port, baudrate)
         self.workers = {}
         self.write_queue = asyncio.Queue()
-        self.loop = asyncio.get_event_loop()
+        self.loop = asyncio.get_running_loop()
         self.tasks = [
             self.loop.create_task(self.do_writes()),
             self.loop.create_task(self.read_dispatch()),
