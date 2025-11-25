@@ -11,10 +11,12 @@ class SerialDispatcher:
         self.workers = {}
         self.write_queue = asyncio.Queue()
         self.loop = asyncio.get_running_loop()
-        self.tasks = TaskSet([
-            self.loop.create_task(self.do_writes()),
-            self.loop.create_task(self.read_dispatch()),
-        ])
+        self.tasks = TaskSet(
+            [
+                self.loop.create_task(self.do_writes()),
+                self.loop.create_task(self.read_dispatch()),
+            ]
+        )
 
     def write(self, data):
         self.write_queue.put_nowait(data)
