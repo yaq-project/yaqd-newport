@@ -12,6 +12,7 @@ from yaqd_core import (
     IsDaemon,
 )
 from ._serial import SerialDispatcher
+from ._tasks import TaskSet
 
 
 class NewportMotor(
@@ -88,8 +89,9 @@ class NewportMotor(
         self._serial.write(f"{self._axis}SL?\r\n".encode())
         self._serial.write(f"{self._axis}SR?\r\n".encode())
         self._state["status"] = ""
-        self._tasks.append(self._loop.create_task(self._home()))
-        self._tasks.append(self._loop.create_task(self._consume_from_serial()))
+        self.tasks = TaskSet()
+        self.tasks.add_coro(self._consume_from_serial())
+        self.home()
 
     def busy(self):
         return bool(self._ignore_ready or super().busy())
@@ -115,14 +117,11 @@ class NewportMotor(
                 self._busy = True
             self._serial.write(f"{self._axis}PA{position}\r\n".encode())
 
-        self._loop.create_task(_wait_for_ready_and_set_position(self))
+        self.tasks.add_coro(_wait_for_ready_and_set_position(self))
 
     def clear_disable(self):
-        async def _clear_disable(self):
-            self._serial.write(f"{self._axis}MM1\r\n".encode())
-
         self.logger.info(f"clear_disable: status is {self._state['status']}")
-        self._loop.create_task(_clear_disable(self))
+        self._serial.write(f"{self._axis}MM1\r\n".encode())
 
     async def update_state(self):
         while True:
@@ -198,7 +197,7 @@ class NewportMotor(
 
     def home(self):
         self._busy = True
-        self._loop.create_task(self._home())
+        self.tasks.add_coro(self._home())
 
     async def _home(self):
         self._homing = True
