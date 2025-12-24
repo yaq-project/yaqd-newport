@@ -19,6 +19,7 @@ class SerialDispatcher:
         )
 
     def write(self, data):
+        """puts data into write queue without blocking"""
         self.write_queue.put_nowait(data)
 
     async def do_writes(self):

@@ -4,6 +4,7 @@ import asyncio
 
 
 class TaskSet(set):
+    """a set for asyncio tasks.  guards against premature garbage collection"""
     def __init__(self, iterable=()):
         super().__init__(iterable)
         for task in self:
