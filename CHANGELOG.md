@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2025.12.0]
+
+### Fixed
+- asyncio syntax now compatible with python 3.14
+
 ## [2025.4.0]
 
 ### Added
@@ -95,7 +100,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/yaq-project/yaqd-newport/compare/v2025.4.0...main
+
+[Unreleased]: https://github.com/yaq-project/yaqd-newport/compare/v2025.12.0...main
+[2025.12.0]: https://github.com/yaq-project/yaqd-newport/compare/v2025.4.0...v2025.12.0
 [2025.4.0]: https://github.com/yaq-project/yaqd-newport/compare/v2025.3.0...v2025.4.0
 [2025.3.0]: https://github.com/yaq-project/yaqd-newport/compare/v2023.8.0...v2025.3.0
 [2023.8.0]: https://github.com/yaq-project/yaqd-newport/compare/v2022.11.0...v2023.8.0
